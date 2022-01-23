@@ -5,3 +5,5 @@ also because my friends called me a pussy for not trying (I have nerdy friends l
 Anyways take that guys
 
 ![Demo of the project](./data/demo.gif "DEMO of the project")
+
+Used a sort of algorithm from conways game of life and it ended up well
