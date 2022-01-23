@@ -3,8 +3,7 @@ Made By H. C. Lanka
 
 .........
 
-Hello! This is my implementation of John Conways Game Of Life which is a cellular automaton
-Cellular automaton means some sort of simulation based on certain rules
+Hello! This is my own implementation of map generation
 
 .........
 
@@ -17,7 +16,7 @@ import pygame
 import time
 import random
 from itertools import product
-import data.colors
+import data.colors as colors
 
 fps = 60
 cell_width = 3
@@ -58,21 +57,49 @@ def advance(board):
         neighbors = get_neighbors(x, y, board)
         alive_num = sum(neighbors)
         state = board[x][y]
-
-        '''
-        if living cell is alive and it has 2 or 3 
-        neighbors, it stays alive
-        '''
-        
-        if state == 1 and alive_num in [2, 3]:
-            new_board[x][y] = 1
-
-        '''
-        if a cell is dead but has 3 neighbors, 
-        it is alive again
-        '''
-
-        if state == 0 and alive_num in [3]:
-            new_board[x][y] = 1
         
         return new_board
+
+prev_update_time = time.time()
+board = make_board(width, height, randomize=True)
+paused = True
+mouse_dragging = False
+
+while 1:
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RETURN:
+                paused = not paused
+        
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            x, y = pygame.mouse.get_pos()
+            col, row = x//cell_width, y//cell_width
+
+            state = board[col][row]
+            board[col][row] = 1
+            mouse_dragging = True
+        
+        if event.type == pygame.MOUSEBUTTONUP:
+            mouse_dragging = False
+
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+            
+    if mouse_dragging:
+        x, y = pygame.mouse.get_pos()
+        col, row = x//cell_width, y//cell_width
+        board[col][row] = 1
+
+    if time.time() - prev_update_time < 1/fps:
+        continue
+
+    prev_update_time = time.time()
+    screen.fill(colors.black)
+
+    for x, y in product(range(width), range(height)):
+        coords = ((x+0.5)*cell_width, (y+0.5)*cell_width)
+
+        if board[x][y]:
+            pygame.draw.circle(screen, colors.green, coords, cell_width/2)
+    pygame.display.flip()
