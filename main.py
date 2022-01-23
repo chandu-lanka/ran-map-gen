@@ -72,6 +72,7 @@ while True:
                 paused = not paused
             if event.key == pygame.K_SPACE:
                 board = make_board(width, height, randomize=True)
+                colors.random_color = random.randrange(0, 255), random.randrange(0, 255), random.randrange(0, 255)
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             x, y = pygame.mouse.get_pos()
