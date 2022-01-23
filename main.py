@@ -103,5 +103,5 @@ while True:
         coords = ((x+0.5)*cell_width, (y+0.5)*cell_width)
 
         if board[x][y]:
-            pygame.draw.circle(screen, colors.green, coords, cell_width/2)
+            pygame.draw.circle(screen, colors.random_color, coords, cell_width/2)
     pygame.display.flip()
