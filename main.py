@@ -19,8 +19,8 @@ from itertools import product
 import data.colors as colors
 
 fps = 60
-cell_width = 3
-grid_size = width, height = (500, 500)
+cell_width = 5
+grid_size = width, height = (100, 50)
 screen_size = grid_size[0] * cell_width, grid_size[1] * cell_width
 
 pygame.init()
@@ -65,12 +65,14 @@ board = make_board(width, height, randomize=True)
 paused = True
 mouse_dragging = False
 
-while 1:
+while True:
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
                 paused = not paused
-        
+            if event.key == pygame.K_SPACE:
+                board = make_board(width, height, randomize=True)
+
         if event.type == pygame.MOUSEBUTTONDOWN:
             x, y = pygame.mouse.get_pos()
             col, row = x//cell_width, y//cell_width
